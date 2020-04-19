@@ -1,0 +1,19 @@
+version: "3.7"
+services:
+  eureka:
+    build: ./economics-server-eureka
+    networks:
+      economics: {}
+    ports:
+      - "8761:8761"
+  warehouses:
+    build: ./economics-server-warehouse
+    networks:
+      economics: {}
+    ports:
+      - "8001:8001"
+networks:
+  economics:
+    external: true
+    name: economics
+# sudo docker network create economics --subnet 172.24.24.0/24

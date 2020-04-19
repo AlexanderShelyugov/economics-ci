@@ -1,0 +1,60 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: economics-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          serviceName: economics
+          servicePort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: economics
+  labels:
+    run: warehouses
+spec:
+  ports:
+  - port: 80
+    targetPort: 8001
+    protocol: TCP
+    name: http
+  type: NodePort
+  selector:
+    app: warehouses
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: warehouses
+  name: warehouses
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: warehouses
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: warehouses
+    spec:
+      containers:
+      - image: economics-server-warehouses
+        name: warehouses
+        imagePullPolicy: Never
+        resources: {}
+        ports:
+        - containerPort: 8001
+          protocol: TCP
+status: {}
