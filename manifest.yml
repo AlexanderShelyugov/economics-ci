@@ -19,16 +19,74 @@ kind: Service
 metadata:
   name: economics
   labels:
-    run: warehouses
+    run: client
 spec:
   ports:
   - port: 80
-    targetPort: 8001
+    targetPort: 80
     protocol: TCP
     name: http
   type: NodePort
   selector:
-    app: warehouses
+    app: client
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: client
+  name: client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: client
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: client
+    spec:
+      containers:
+      - image: economics:client
+        name: client
+        imagePullPolicy: Never
+        resources: {}
+        ports:
+        - containerPort: 80
+          protocol: TCP
+status: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: eureka
+  name: eureka
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: eureka
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: eureka
+    spec:
+      containers:
+      - image: economics:server-eureka
+        name: eureka
+        imagePullPolicy: Never
+        resources: {}
+        ports:
+        - containerPort: 8761
+          protocol: TCP
+status: {}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -50,11 +108,69 @@ spec:
         app: warehouses
     spec:
       containers:
-      - image: economics-server-warehouses
+      - image: economics:server-warehouses
         name: warehouses
         imagePullPolicy: Never
         resources: {}
         ports:
         - containerPort: 8001
+          protocol: TCP
+status: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: products
+  name: products
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: products
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: products
+    spec:
+      containers:
+      - image: economics:server-products
+        name: products
+        imagePullPolicy: Never
+        resources: {}
+        ports:
+        - containerPort: 8100
+          protocol: TCP
+status: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: database
+  name: database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: database
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: database
+    spec:
+      containers:
+      - image: economics:database
+        name: database
+        imagePullPolicy: Never
+        resources: {}
+        ports:
+        - containerPort: 5432
           protocol: TCP
 status: {}
