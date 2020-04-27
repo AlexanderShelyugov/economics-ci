@@ -1,0 +1,1 @@
+docker rmi economics:client economics:server-warehouses economics:server-eureka economics:server-products economics:database
