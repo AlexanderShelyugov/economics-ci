@@ -29,8 +29,8 @@ services:
     ports:
       - "8100:8100"
     depends_on:
-      database:
-        condition: service_healthy
+      - database
+    restart: always
   database:
     image: economics:database
     container_name: database
