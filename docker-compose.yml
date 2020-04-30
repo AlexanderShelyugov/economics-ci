@@ -29,7 +29,8 @@ services:
     ports:
       - "8100:8100"
     depends_on:
-      - database
+      database:
+        condition: service_healthy
   database:
     image: economics:database
     container_name: database
@@ -37,6 +38,11 @@ services:
       economics: {}
     ports:
       - "5432:5432"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://database:5432"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 networks:
   economics:
     external: true
