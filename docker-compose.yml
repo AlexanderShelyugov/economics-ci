@@ -6,7 +6,7 @@ services:
     networks:
       economics: {}
     ports:
-      - "80:80"
+      - "3000:80"
   eureka:
     image: economics:server-eureka
     container_name: eureka
