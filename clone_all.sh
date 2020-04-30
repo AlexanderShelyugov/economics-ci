@@ -1,3 +1,4 @@
+#!/bin/bash
 source ./variables.sh
 mkdir $PROJECT_FOLDER
 cd $PROJECT_FOLDER
