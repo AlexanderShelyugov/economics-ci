@@ -1,7 +1,8 @@
 version: "3.7"
 networks:
   economics:
-    external: true
+    external:
+      name: economics
 services:
   client:
     image: economics:client
