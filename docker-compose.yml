@@ -1,8 +1,4 @@
 version: "3.7"
-networks:
-  economics:
-    external:
-      name: economics
 services:
   client:
     image: economics:client
@@ -21,6 +17,8 @@ services:
   warehouses:
     image: economics:server-warehouses
     container_name: warehouses
+    env_file:
+      env/warehouses.env
     networks:
       - economics
     ports:
@@ -28,6 +26,8 @@ services:
   products:
     image: economics:server-products
     container_name: products
+    env_file:
+      env/products.env
     networks:
       - economics
     ports:
@@ -42,3 +42,7 @@ services:
       - economics
     ports:
       - "5432:5432"
+networks:
+  economics:
+    external:
+      name: economics
