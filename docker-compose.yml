@@ -37,6 +37,8 @@ services:
     restart: on-failure
   database:
     image: economics:database
+    env_file:
+      env/database.env
     container_name: database
     networks:
       - economics
