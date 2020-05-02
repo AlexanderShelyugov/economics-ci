@@ -17,7 +17,7 @@ This is the main repository for the Economics project. You can build and run the
 
 ## Build
 1. Run [`build-all.sh`](https://github.com/AlexanderShelyugov/economics-ci/blob/develop/build-all.sh). It will build a docker image per project
-1. Run [`create-network.sh`] to create a docker network
+1. Run [`create-network.sh`](https://github.com/AlexanderShelyugov/economics-ci/blob/develop/create-network.sh) to create a docker network
 1. Run [`run-compose.sh`](https://github.com/AlexanderShelyugov/economics-ci/blob/develop/run-compose.sh) to run services in docker compose or [`run-kubernetes.sh`](https://github.com/AlexanderShelyugov/economics-ci/blob/develop/run-kubernetes.sh) to run everything in Kubernetes (work in progress)!
 
 ## Configuration
