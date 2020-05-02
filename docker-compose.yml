@@ -3,6 +3,8 @@ services:
   client:
     image: economics:client
     container_name: client
+    env_file:
+      env/client.env
     networks:
       - economics
     ports:
