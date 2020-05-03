@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: warehouses
+  labels:
+    app: warehouses
+spec:
+  type: NodePort
+  ports:
+  - port: 8001
+  selector:
+    app: warehouses
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-warehouses
+data:
+  EUREKA_URI: http://eureka:8761
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: warehouses
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: warehouses
+  template:
+    metadata:
+      labels:
+        app: warehouses
+    spec:
+      containers:
+      - name: warehouses
+        image: economics:server-warehouses
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8001
+        envFrom:
+        - configMapRef:
+            name: config-warehouses

@@ -1,0 +1,82 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: database
+  labels:
+    app: database
+spec:
+  type: NodePort
+  ports:
+  - port: 5432
+  selector:
+    app: database
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-database
+data:
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: postgres
+  POSTGRES_DB: economics
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pv-volume-postgres
+  labels:
+    type: local
+    app: postgres
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 100M
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: ""
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pv-claim-postgres
+  labels:
+    app: postgres
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 100M
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: database
+  template:
+    metadata:
+      labels:
+        app: database
+    spec:
+      containers:
+      - name: database
+        image: economics:database
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 5432
+        envFrom:
+        - configMapRef:
+            name: config-database
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: volume-postgres
+      volumes:
+      - name: volume-postgres
+        persistentVolumeClaim:
+          claimName: pv-claim-postgres

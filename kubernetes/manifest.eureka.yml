@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: eureka
+  labels:
+    app: eureka
+spec:
+  type: NodePort
+  ports:
+  - port: 8761
+  selector:
+    app: eureka
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eureka
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: eureka
+  template:
+    metadata:
+      labels:
+        app: eureka
+    spec:
+      containers:
+      - name: eureka
+        image: economics:server-eureka
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8761

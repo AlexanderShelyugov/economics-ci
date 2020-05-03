@@ -1,2 +1,1 @@
-minikube start
-kubectl apply -f manifest.yml
+kubectl apply -f ./kubernetes
