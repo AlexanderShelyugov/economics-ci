@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  name: economics-ingress
+  name: economics-client-ingress
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
     kubernetes.io/ingress.class: nginx
@@ -13,4 +13,20 @@ spec:
         pathType: Prefix
         backend:
           serviceName: client
+          servicePort: 80
+---
+kind: Ingress
+metadata:
+  name: economics-server-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          serviceName: reverse-proxy
           servicePort: 80
