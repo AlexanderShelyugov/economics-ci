@@ -11,7 +11,7 @@ This is the main repository for the Economics project. You can build and run the
 
 ## Pre-build
 1. You will need to have a [Docker](https://www.docker.com) installed. Also, in order to run you can use either [Docker-compose](https://docs.docker.com/compose) or [Kubernetes](https://kubernetes.io)
-1. Edit [`variables.sh`](https://github.com/AlexanderShelyugov/economics-ci/blob/develop/variables.sh) and setup directories, that are ok to you
+1. Edit [`.variables.sh`](https://github.com/AlexanderShelyugov/economics-ci/blob/develop/.variables.sh) and setup directories, that are ok to you. Rename file to `variables.sh` afterwards
 1. (Optional) `find . -type f -iname "*.sh" -exec chmod +x {} \;` in this project's directory to make all *.sh* files executable
 1. Run [`clone-all.sh`](https://github.com/AlexanderShelyugov/economics-ci/blob/develop/clone-all.sh). It will pull the source code of all projects (which are listed in `variables.sh`)
 
@@ -27,4 +27,4 @@ All configuration files for client and servers are located in the [`env`](https:
 You may have noticed files like [`Dockerfile.database`](https://github.com/AlexanderShelyugov/economics-ci/blob/develop/Dockerfile.database), [`build-database.sh`](https://github.com/AlexanderShelyugov/economics-ci/blob/develop/build-database.sh), [`run-database`](https://github.com/AlexanderShelyugov/economics-ci/blob/develop/run-database.sh). They contain the information about database which is used. This is [PostgreSQL](https://www.postgresql.org). Most of the time you won't have to edit it, it's all set. But you may just know more about it. Currently, all the database migrations are handled locally per server.
 
 ## Project structure
-The [client](https://github.com/AlexanderShelyugov/economics-client) connects to [products](https://github.com/AlexanderShelyugov/economics-server-products) and [warehouses](https://github.com/AlexanderShelyugov/economics-server-warehouses) servers. Later, there will be one proxy for client. Also, there is an [Eureka server](https://github.com/AlexanderShelyugov/economics-server-eureka) which is going to be used a lot later on. You can find more about Eureka server [here](https://github.com/Netflix/eureka/wiki/Eureka-at-a-glance).
+The [client](https://github.com/AlexanderShelyugov/economics-client) connects to a reverse proxy to access [products](https://github.com/AlexanderShelyugov/economics-server-products) and [warehouses](https://github.com/AlexanderShelyugov/economics-server-warehouses) servers. Later, there will be one proxy for client. Also, there is an [Eureka server](https://github.com/AlexanderShelyugov/economics-server-eureka) which is going to be used a lot later on. You can find more about Eureka server [here](https://github.com/Netflix/eureka/wiki/Eureka-at-a-glance).

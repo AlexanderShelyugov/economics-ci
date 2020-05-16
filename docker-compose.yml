@@ -3,12 +3,20 @@ services:
   client:
     image: economics:client
     container_name: client
-    env_file:
-      env/client.env
     networks:
       - economics
     ports:
-      - "3000:80"
+      - "80:80"
+  reverse-proxy:
+    image: economics:reverse-proxy
+    container_name: reverse-proxy
+    networks:
+      - economics
+    ports:
+      - "2000:80"
+    volumes:
+      - "./reverse-proxy/config:/etc/nginx:ro"
+    restart: on-failure
   eureka:
     image: economics:server-eureka
     container_name: eureka
