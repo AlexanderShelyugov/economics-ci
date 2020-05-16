@@ -1,6 +1,9 @@
 #!/bin/bash
 source variables.sh
-sh ./build-database.sh
+
+cd database
+sh ./build.sh
+cd ..
 
 cd reverse-proxy
 sh ./build.sh
